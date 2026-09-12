@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import styles from './register.module.css';
 
@@ -18,7 +18,54 @@ export default function Register() {
     paymentStatus: 'Paid'
   });
   const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [authError, setAuthError] = useState('');
   const [message, setMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
+
+  useEffect(() => {
+    const isAdmin = sessionStorage.getItem('isAdmin');
+    if (isAdmin === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === 'Lakshya@2203') {
+      sessionStorage.setItem('isAdmin', 'true');
+      setIsAuthenticated(true);
+      setAuthError('');
+    } else {
+      setAuthError('Invalid password');
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Navbar />
+        <main className={styles.main}>
+          <div className={`glass-card ${styles.card}`} style={{ maxWidth: '400px', margin: '100px auto', textAlign: 'center' }}>
+            <h1 className="neon-text" style={{ marginBottom: '20px' }}>Admin Access</h1>
+            <p style={{ marginBottom: '20px', color: '#a0a0a0' }}>Please enter the admin password to access registration.</p>
+            <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              <input 
+                type="password" 
+                className="input-field" 
+                placeholder="Enter Password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                autoFocus
+              />
+              {authError && <div style={{ color: '#ff4d4d', fontSize: '14px', marginTop: '-5px' }}>{authError}</div>}
+              <button type="submit" className="btn-primary">LOGIN</button>
+            </form>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -228,3 +275,4 @@ export default function Register() {
     </>
   );
 }
+

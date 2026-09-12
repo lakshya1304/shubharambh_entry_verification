@@ -19,22 +19,11 @@ export default function Navbar() {
         <Link href="/participants" className={pathname === '/participants' ? styles.active : ''}>
           Participants
         </Link>
-        <a 
-          href="#" 
-          onClick={(e) => {
-            e.preventDefault();
-            const pass = window.prompt("Enter admin password to access registration:");
-            if (pass === 'Lakshya@2203') {
-              window.location.href = "/register";
-            } else if (pass !== null) {
-              alert("Invalid password");
-            }
-          }}
-          className={pathname === '/register' ? styles.active : ''}
-        >
+        <Link href="/register" className={pathname === '/register' ? styles.active : ''}>
           Register
-        </a>
+        </Link>
       </div>
     </nav>
   );
 }
+
