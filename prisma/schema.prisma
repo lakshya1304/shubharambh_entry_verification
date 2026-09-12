@@ -1,0 +1,25 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+model Participant {
+  id                Int       @id @default(autoincrement())
+  name              String
+  applicationNumber String?   @unique
+  uid               String?   @unique
+  email             String?
+  department        String
+  semester          String?
+  phone             String?
+  amountPaid        Float
+  paymentStatus     String    // e.g., "Paid", "Pending"
+  registrationDate  DateTime  @default(now())
+  entryStatus       String    @default("NOT ENTERED") // "NOT ENTERED" or "ENTERED"
+  entryTimestamp    DateTime?
+}
