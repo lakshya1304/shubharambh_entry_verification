@@ -13,9 +13,11 @@ export async function GET(request: Request) {
     
     if (search) {
       whereClause.OR = [
-        { name: { contains: search } }, // Note: Prisma SQLite provider does not support case-insensitive contains easily without raw queries or specific setup, but basic contains works.
-        { applicationNumber: { contains: search } },
-        { uid: { contains: search } },
+        { name: { contains: search, mode: 'insensitive' } },
+        { applicationNumber: { contains: search, mode: 'insensitive' } },
+        { uid: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+        { phone: { contains: search, mode: 'insensitive' } },
       ];
     }
 
