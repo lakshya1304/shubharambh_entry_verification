@@ -137,13 +137,14 @@ export default function Register() {
               )}
 
               <div className={styles.formGroup}>
-                <label>Email (Optional)</label>
+                <label>Email *</label>
                 <input 
                   type="email" 
                   name="email"
                   className="input-field" 
                   value={formData.email}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -175,13 +176,14 @@ export default function Register() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>Phone Number</label>
+                <label>Phone Number *</label>
                 <input 
                   type="text" 
                   name="phone"
                   className="input-field" 
                   value={formData.phone}
                   onChange={handleChange}
+                  required
                 />
               </div>
 

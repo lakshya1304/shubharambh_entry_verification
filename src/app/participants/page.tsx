@@ -114,6 +114,8 @@ export default function Participants() {
                     <th>UID</th>
                     <th>App No</th>
                     <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
                     <th>Department</th>
                     <th>Payment</th>
                     <th>Entry Status</th>
@@ -128,6 +130,8 @@ export default function Participants() {
                         <td className={styles.uid}>{p.uid}</td>
                         <td>{p.applicationNumber}</td>
                         <td className={styles.name}>{p.name}</td>
+                        <td>{p.email || '-'}</td>
+                        <td>{p.phone || '-'}</td>
                         <td>{p.department}</td>
                         <td>
                           <span className={`${styles.badge} ${p.paymentStatus === 'Paid' ? styles.badgeSuccess : styles.badgeWarning}`}>
