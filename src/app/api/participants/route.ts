@@ -73,7 +73,7 @@ export async function POST(request: Request) {
         email: body.email || null,
         department: body.department,
         semester: body.semester || null,
-        phone: body.phone,
+        phone: body.phone || null,
         amountPaid: parseFloat(body.amountPaid),
         paymentStatus: body.paymentStatus,
         entryStatus: 'NOT ENTERED'
