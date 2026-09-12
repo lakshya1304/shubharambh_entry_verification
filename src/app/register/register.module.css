@@ -82,3 +82,18 @@
   border-top: 1px solid var(--card-border);
   padding-top: 24px;
 }
+
+@media (max-width: 640px) {
+  .main {
+    padding: 16px;
+  }
+  .header h1 {
+    font-size: 1.6rem;
+  }
+  .card {
+    padding: 16px;
+  }
+  .actions {
+    justify-content: center;
+  }
+}

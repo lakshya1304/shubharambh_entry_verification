@@ -59,3 +59,21 @@
 .logoutBtn:hover {
   background: rgba(239, 68, 68, 0.1);
 }
+
+@media (max-width: 640px) {
+  .navbar {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+  .links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .links a {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}

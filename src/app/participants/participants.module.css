@@ -205,3 +205,34 @@
   background: rgba(239, 68, 68, 0.2);
   border-color: #ef4444;
 }
+
+@media (max-width: 640px) {
+  .main {
+    padding: 16px;
+  }
+  .controls {
+    width: 100%;
+    flex-direction: column;
+  }
+  .searchForm {
+    width: 100%;
+  }
+  .searchInput {
+    flex-grow: 1;
+    width: auto;
+  }
+  .filterSelect {
+    width: 100%;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  .pagination {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .tableContainer {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}

@@ -181,3 +181,25 @@
   text-align: center;
   padding: 20px;
 }
+
+@media (max-width: 640px) {
+  .main {
+    padding: 16px;
+  }
+  .entryCard {
+    min-height: auto;
+  }
+  .entryCard h1 {
+    font-size: 1.5rem;
+  }
+  .largeInput {
+    font-size: 1.2rem !important;
+    padding: 16px !important;
+  }
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  .dashboardGrid {
+    gap: 16px;
+  }
+}
