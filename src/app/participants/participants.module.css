@@ -208,24 +208,35 @@
 
 @media (max-width: 640px) {
   .main {
-    padding: 16px;
+    padding: 12px;
+  }
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
   }
   .controls {
     width: 100%;
     flex-direction: column;
+    gap: 12px;
   }
   .searchForm {
     width: 100%;
+    flex-direction: column;
+    gap: 12px;
   }
   .searchInput {
-    flex-grow: 1;
-    width: auto;
+    width: 100%;
+  }
+  .searchBtn {
+    width: 100%;
   }
   .filterSelect {
     width: 100%;
-  }
-  .header h1 {
-    font-size: 1.5rem;
   }
   .pagination {
     flex-direction: column;
@@ -234,5 +245,6 @@
   .tableContainer {
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
 }
