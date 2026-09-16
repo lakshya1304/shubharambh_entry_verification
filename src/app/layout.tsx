@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SplashVerification } from "@/components/SplashVerification";
 
 export const metadata: Metadata = {
   title: "Shubharambh 2.0 | Freshers Party",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <SplashVerification>
+          {children}
+        </SplashVerification>
       </body>
     </html>
   );
