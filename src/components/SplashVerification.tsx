@@ -3,16 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Lock } from "lucide-react";
 
-const TARGET_HASH = "7bebe75464718bb6e6bad697e510c6a20c7ba85fbcf15326dc6af6d4df4ea6d2";
-
-async function hashString(str: string) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(str);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-  return hashHex;
-}
+import { verifyPassword } from "@/app/actions";
 
 export function SplashVerification({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -35,8 +26,8 @@ export function SplashVerification({ children }: { children: React.ReactNode }) 
     setError(false);
 
     try {
-      const hash = await hashString(password);
-      if (hash === TARGET_HASH) {
+      const isValid = await verifyPassword(password);
+      if (isValid) {
         sessionStorage.setItem("app_authenticated", "true");
         setIsAuthenticated(true);
       } else {
@@ -44,7 +35,7 @@ export function SplashVerification({ children }: { children: React.ReactNode }) 
         setPassword("");
       }
     } catch (err) {
-      console.error("Hashing failed", err);
+      console.error("Verification failed", err);
       setError(true);
     } finally {
       setIsChecking(false);
