@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import * as XLSX from 'xlsx';
 import styles from './participants.module.css';
 
 export default function Participants() {
@@ -69,6 +70,64 @@ export default function Participants() {
     }
   };
 
+  const handleExport = async () => {
+    setLoading(true);
+    try {
+      // Fetch all participants without pagination
+      const res = await fetch(`/api/participants?limit=1000000`);
+      if (!res.ok) throw new Error("Failed to fetch participants");
+      const data = await res.json();
+      const allParticipants = data.participants || [];
+
+      // Create a workbook
+      const wb = XLSX.utils.book_new();
+
+      const processData = (list: any[]) => {
+        return list.map((p: any) => ({
+          'UID': p.uid || '-',
+          'Application No': p.applicationNumber || '-',
+          'Name': p.name,
+          'Email': p.email || '-',
+          'Phone': p.phone || '-',
+          'Department': p.department,
+          'Payment Status': p.paymentStatus,
+          'Entry Status': p.entryStatus,
+          'Entry Time': p.entryTimestamp ? new Date(p.entryTimestamp).toLocaleString() : '-'
+        }));
+      };
+
+      // Filter logic
+      const isBCA = (dept: string) => dept && dept.toLowerCase().includes('bca');
+      const isBTech = (dept: string) => dept && dept.toLowerCase().includes('btech');
+      const isDiploma = (dept: string) => dept && dept.toLowerCase().includes('diploma');
+      const isOther = (dept: string) => !isBCA(dept) && !isBTech(dept) && !isDiploma(dept);
+
+      // Separate into UID and AppNo lists
+      const uidList = allParticipants.filter((p: any) => p.uid && p.uid.trim() !== '');
+      const appNoList = allParticipants.filter((p: any) => p.applicationNumber && p.applicationNumber.trim() !== '');
+
+      // UID Sheets
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(processData(uidList.filter((p: any) => isBCA(p.department)))), "UID - BCA");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(processData(uidList.filter((p: any) => isBTech(p.department)))), "UID - BTech");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(processData(uidList.filter((p: any) => isDiploma(p.department)))), "UID - Diploma");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(processData(uidList.filter((p: any) => isOther(p.department)))), "UID - Others");
+
+      // AppNo Sheets
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(processData(appNoList.filter((p: any) => isBCA(p.department)))), "AppNo - BCA");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(processData(appNoList.filter((p: any) => isBTech(p.department)))), "AppNo - BTech");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(processData(appNoList.filter((p: any) => isDiploma(p.department)))), "AppNo - Diploma");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(processData(appNoList.filter((p: any) => isOther(p.department)))), "AppNo - Others");
+
+      // Download
+      XLSX.writeFile(wb, "Shubharambh_Participants.xlsx");
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred during export.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -101,6 +160,9 @@ export default function Participants() {
                 <option value="PAID">Paid</option>
                 <option value="UNPAID">Unpaid</option>
               </select>
+              <button onClick={handleExport} className={`btn-primary ${styles.searchBtn}`} disabled={loading} style={{ marginLeft: '10px', backgroundColor: '#10b981' }}>
+                {loading ? 'Exporting...' : 'Export Excel'}
+              </button>
             </div>
           </div>
 
